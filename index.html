@@ -140,8 +140,24 @@
     }
 
     @media (max-width: 719px) {
+      .hero {
+        display: block;
+        position: relative;
+      }
+
       .hero-icon {
-        order: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 88px;
+        height: 88px;
+      }
+
+      .hero-content h1 {
+        min-height: 88px;
+        display: flex;
+        align-items: center;
+        padding-right: 104px;
       }
     }
 
