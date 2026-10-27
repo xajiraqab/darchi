@@ -121,24 +121,34 @@
     }
 
     .hero-icon {
-      display: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 104px;
+      height: 104px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f6f8fa;
+    }
+
+    .hero-icon img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    @media (max-width: 719px) {
+      .hero-icon {
+        order: -1;
+      }
     }
 
     @media (min-width: 720px) {
       .hero-icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
         width: 140px;
         height: 140px;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        overflow: hidden;
-      }
-
-      .hero-icon img {
-        width: 100%;
-        height: 100%;
       }
     }
 
