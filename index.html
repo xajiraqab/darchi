@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>darchi</title>
+  <title>Darchi</title>
   <link rel="icon" type="image/png" href="appicon.png">
   <style>
     :root {
@@ -49,47 +49,46 @@
       gap: 0.7rem;
     }
 
-    .nav-logo {
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       width: 32px;
       height: 32px;
       border-radius: 6px;
-      overflow: hidden;
-    }
-
-    .nav-logo img {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .nav-title {
-      font-weight: 600;
-    }
-
-    .nav-link {
       color: var(--text);
-      text-decoration: none;
-      font-size: 0.95rem;
     }
 
     .nav-link:hover {
-      text-decoration: underline;
+      background: #f6f8fa;
+    }
+
+    .nav-link svg {
+      width: 24px;
+      height: 24px;
+      display: block;
     }
 
     main {
       width: min(980px, 100%);
       margin: 0 auto;
-      padding: 2.5rem 1.5rem 3rem;
+      padding: 3rem 1.5rem 4rem;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 2.5rem;
     }
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr);
       gap: 2rem;
       align-items: center;
+    }
+
+    @media (min-width: 720px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
     }
 
     .hero-content {
@@ -99,33 +98,36 @@
     }
 
     .hero-content h1 {
-      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-size: clamp(2.4rem, 6vw, 4rem);
       letter-spacing: -0.02em;
+      font-weight: 600;
     }
 
     .hero-content p {
       color: var(--subtext);
-      font-size: clamp(1rem, 2vw, 1.1rem);
-      max-width: 640px;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      max-width: 600px;
     }
 
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.8rem;
+      gap: 0.7rem;
+      margin-top: 0.5rem;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.6rem 1.2rem;
+      padding: 0.6rem 1.1rem;
       border-radius: 6px;
       border: 1px solid var(--border);
       background: #f6f8fa;
       color: var(--text);
       text-decoration: none;
       font-weight: 500;
+      font-size: 0.95rem;
     }
 
     .btn-primary {
@@ -147,10 +149,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 160px;
-        height: 160px;
-        border-radius: 12px;
+        width: 140px;
+        height: 140px;
         border: 1px solid var(--border);
+        border-radius: 8px;
         overflow: hidden;
       }
 
@@ -166,49 +168,46 @@
       gap: 1rem;
     }
 
-    .section-header {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
     .section-header h2 {
-      font-size: 1.6rem;
-    }
-
-    .section-header p {
-      color: var(--subtext);
+      font-size: 1.4rem;
+      font-weight: 600;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1rem;
     }
 
     .card {
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 1.2rem;
+      padding: 1rem 1.1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.3rem;
     }
 
     .card h3 {
-      font-size: 1.05rem;
+      font-size: 1rem;
+      font-weight: 600;
     }
 
     .card p {
       color: var(--subtext);
+      font-size: 0.95rem;
     }
 
     footer {
       border-top: 1px solid var(--border);
       padding: 2rem 1.5rem;
       color: var(--subtext);
-      text-align: center;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+    }
+
+    .footer-inner {
+      width: min(980px, 100%);
+      margin: 0 auto;
     }
   </style>
 </head>
@@ -217,34 +216,31 @@
   <header>
     <nav class="nav">
       <div class="nav-left">
-        <div class="nav-logo">
-          <img src="appicon.png" alt="darchi icon">
-        </div>
-        <span class="nav-title">darchi</span>
+        <a class="nav-link" href="https://github.com/xajiraqab/darchi" aria-label="GitHub repository">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path>
+          </svg>
+        </a>
       </div>
-      <a class="nav-link" href="https://github.com/xajiraqab/darchi">GitHub</a>
     </nav>
   </header>
   <main>
     <section class="hero">
       <div class="hero-content">
-        <h1>darchi</h1>
+        <h1>Darchi</h1>
         <p>Lightweight desktop app built with Go and Wails. Simple, fast, and native.</p>
         <div class="actions">
           <a class="btn btn-primary" href="https://github.com/xajiraqab/darchi/releases/latest/download/Darchi.exe">Download for Windows</a>
-          <a class="btn" href="https://github.com/xajiraqab/darchi/releases">All releases</a>
-          <a class="btn" href="https://github.com/xajiraqab/darchi">View source</a>
         </div>
-        <p style="color: var(--subtext); font-size: 0.95rem;">Currently Windows only. macOS and Linux may be added later.</p>
+        <p style="color: var(--subtext); font-size: 0.9rem;">Currently Windows only. macOS and Linux may be added later.</p>
       </div>
       <div class="hero-icon">
-        <img src="appicon.png" alt="darchi app icon">
+        <img src="appicon.png" alt="Darchi icon">
       </div>
     </section>
     <section class="section">
       <div class="section-header">
         <h2>About</h2>
-        <p>Minimal UI focused on usability.</p>
       </div>
       <div class="grid">
         <article class="card">
@@ -263,7 +259,9 @@
     </section>
   </main>
   <footer>
-    <p>&copy; <span id="year"></span> darchi</p>
+    <div class="footer-inner">
+      <p>&copy; <span id="year"></span> Darchi</p>
+    </div>
   </footer>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
