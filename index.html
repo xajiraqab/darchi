@@ -250,6 +250,7 @@
       opacity: 0;
       visibility: hidden;
       transition: opacity 220ms ease, visibility 220ms ease;
+      cursor: pointer;
     }
 
     .lightbox.open {
@@ -502,7 +503,13 @@
     document.getElementById('lbClose').addEventListener('click', close);
 
     lightbox.addEventListener('click', (event) => {
-      if (event.target === lightbox) close();
+      if (event.target.closest('.lb-btn')) return;
+      const rect = lightbox.getBoundingClientRect();
+      if (event.clientX - rect.left < rect.width / 2) {
+        show(current - 1);
+      } else {
+        show(current + 1);
+      }
     });
 
     document.addEventListener('keydown', (event) => {
