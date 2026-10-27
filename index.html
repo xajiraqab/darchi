@@ -203,6 +203,97 @@
       border-color: var(--accent);
     }
 
+    .shot {
+      cursor: zoom-in;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background: rgba(16, 18, 22, 0.85);
+      backdrop-filter: blur(4px);
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-img {
+      max-width: min(1200px, 92vw);
+      max-height: 84vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .lb-btn {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      cursor: pointer;
+      transition: background 120ms ease;
+    }
+
+    .lb-btn:hover {
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    .lb-close {
+      top: 1.2rem;
+      right: 1.2rem;
+    }
+
+    .lb-prev {
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .lb-next {
+      right: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .lb-count {
+      position: absolute;
+      bottom: 1.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 640px) {
+      .lb-prev {
+        left: 0.5rem;
+      }
+
+      .lb-next {
+        right: 0.5rem;
+      }
+
+      .lightbox-img {
+        max-height: 76vh;
+      }
+    }
+
     footer {
       border-top: 1px solid var(--border);
       padding: 2rem 1.5rem;
@@ -260,21 +351,40 @@
         <h2>Screenshots</h2>
       </div>
       <div class="shots">
-        <a class="shot" href="github_images/1.png" target="_blank" rel="noopener">
+        <a class="shot" href="github_images/1.png" data-index="0">
           <img src="github_images/1.png" alt="Darchi screenshot 1" loading="lazy">
         </a>
-        <a class="shot" href="github_images/2.png" target="_blank" rel="noopener">
+        <a class="shot" href="github_images/2.png" data-index="1">
           <img src="github_images/2.png" alt="Darchi screenshot 2" loading="lazy">
         </a>
-        <a class="shot" href="github_images/3.png" target="_blank" rel="noopener">
+        <a class="shot" href="github_images/3.png" data-index="2">
           <img src="github_images/3.png" alt="Darchi screenshot 3" loading="lazy">
         </a>
-        <a class="shot" href="github_images/4.png" target="_blank" rel="noopener">
+        <a class="shot" href="github_images/4.png" data-index="3">
           <img src="github_images/4.png" alt="Darchi screenshot 4" loading="lazy">
         </a>
       </div>
     </section>
   </main>
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer">
+    <button class="lb-btn lb-close" id="lbClose" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 2L4 8L10 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <img class="lightbox-img" id="lbImage" src="" alt="">
+    <button class="lb-btn lb-next" id="lbNext" aria-label="Next">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 2L12 8L6 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="lb-count" id="lbCount"></div>
+  </div>
   <footer>
     <div class="footer-inner">
       <p>&copy; <span id="year"></span> Darchi</p>
@@ -287,6 +397,55 @@
   </footer>
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const shots = Array.from(document.querySelectorAll('.shot'));
+    const lightbox = document.getElementById('lightbox');
+    const lbImage = document.getElementById('lbImage');
+    const lbCount = document.getElementById('lbCount');
+    let current = 0;
+
+    function show(index) {
+      current = (index + shots.length) % shots.length;
+      const link = shots[current];
+      lbImage.src = link.getAttribute('href');
+      lbImage.alt = link.querySelector('img').alt;
+      lbCount.textContent = `${current + 1} / ${shots.length}`;
+    }
+
+    function open(index) {
+      show(index);
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('lbClose').focus();
+    }
+
+    function close() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      lbImage.src = '';
+    }
+
+    shots.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        open(Number(link.dataset.index));
+      });
+    });
+
+    document.getElementById('lbPrev').addEventListener('click', () => show(current - 1));
+    document.getElementById('lbNext').addEventListener('click', () => show(current + 1));
+    document.getElementById('lbClose').addEventListener('click', close);
+
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) close();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (event.key === 'Escape') close();
+      if (event.key === 'ArrowLeft') show(current - 1);
+      if (event.key === 'ArrowRight') show(current + 1);
+    });
   </script>
 </body>
 
