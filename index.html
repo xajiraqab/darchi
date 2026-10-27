@@ -197,6 +197,11 @@
       width: 100%;
       height: auto;
       display: block;
+      transition: transform 260ms ease;
+    }
+
+    .shot:hover img {
+      transform: scale(1.03);
     }
 
     .shot:hover {
@@ -211,16 +216,20 @@
       position: fixed;
       inset: 0;
       z-index: 50;
-      display: none;
+      display: flex;
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
       background: rgba(16, 18, 22, 0.85);
       backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 220ms ease, visibility 220ms ease;
     }
 
     .lightbox.open {
-      display: flex;
+      opacity: 1;
+      visibility: visible;
     }
 
     .lightbox-img {
@@ -232,6 +241,14 @@
       border-radius: 8px;
       background: #fff;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 180ms ease, transform 220ms ease;
+    }
+
+    .lightbox-img.is-fading {
+      opacity: 0;
+      transform: scale(0.96);
     }
 
     .lb-btn {
@@ -363,6 +380,9 @@
         <a class="shot" href="github_images/4.png" data-index="3">
           <img src="github_images/4.png" alt="Darchi screenshot 4" loading="lazy">
         </a>
+        <a class="shot" href="github_images/5.png" data-index="4">
+          <img src="github_images/5.png" alt="Darchi screenshot 5" loading="lazy">
+        </a>
       </div>
     </section>
   </main>
@@ -403,13 +423,33 @@
     const lbImage = document.getElementById('lbImage');
     const lbCount = document.getElementById('lbCount');
     let current = 0;
+    let loadToken = 0;
 
     function show(index) {
       current = (index + shots.length) % shots.length;
       const link = shots[current];
-      lbImage.src = link.getAttribute('href');
-      lbImage.alt = link.querySelector('img').alt;
+      const src = link.getAttribute('href');
+      const alt = link.querySelector('img').alt;
+      const token = ++loadToken;
+
       lbCount.textContent = `${current + 1} / ${shots.length}`;
+      lbImage.classList.add('is-fading');
+
+      setTimeout(() => {
+        if (token !== loadToken) return;
+
+        const reveal = () => {
+          if (token !== loadToken) return;
+          requestAnimationFrame(() => lbImage.classList.remove('is-fading'));
+        };
+
+        lbImage.onload = reveal;
+        lbImage.onerror = reveal;
+        lbImage.src = src;
+        lbImage.alt = alt;
+
+        if (lbImage.complete) reveal();
+      }, 150);
     }
 
     function open(index) {
@@ -422,7 +462,7 @@
     function close() {
       lightbox.classList.remove('open');
       document.body.style.overflow = '';
-      lbImage.src = '';
+      loadToken++;
     }
 
     shots.forEach((link) => {
