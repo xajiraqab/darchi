@@ -20,7 +20,8 @@
 
 ## Build and packaging
 
-- The normal development command is `wails dev`; the production build command is `wails build`.
-- On Windows, Wails runs the `windows/*` post-build hook configured in `wails.json`. It invokes `scripts/pack-windows.ps1` to compress the produced executable with the repository's `upx-5.2.1-win64/upx.exe` using UPX level 9.
-- The hook receives the actual output executable path from Wails as `${bin}`. Keep the hook and script aligned if the output layout or UPX directory changes. A missing UPX executable or failed compression should fail the build rather than silently shipping an unpacked binary.
+- Build production binaries with `wails build`.
+- On Windows, the required final artifact is `build/bin/Darchi.exe` (capital `D`). Keep `outputfilename` in `wails.json` set to `Darchi` so Wails writes the executable to this exact path.
+- After Wails produces the executable, compress it in place with the repository's `upx-5.2.1-win64/upx.exe` at UPX level 9. The `windows/*` post-build hook in `wails.json` invokes `scripts/pack-windows.ps1` and passes Wails' actual binary path as `${bin}`. Do not treat the build as complete unless the hook succeeds and the compressed result is `build/bin/Darchi.exe`.
+- A missing UPX executable or failed compression must fail the build rather than silently shipping an unpacked binary. Keep the hook and script aligned if the output layout or UPX directory changes.
 - UPX packaging applies to Windows builds. Keep non-Windows builds independent of the Windows-only UPX binary.

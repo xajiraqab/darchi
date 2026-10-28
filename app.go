@@ -441,7 +441,7 @@ func (a *App) ArchiveDesktop() (string, error) {
 	for _, entry := range entries {
 		nameEnt := entry.Name()
 		lname := strings.ToLower(nameEnt)
-		if lname == "recycle.bin" || lname == "$recycle.bin" || lname == "my computer" || lname == "this pc" {
+		if lname == "recycle.bin" || lname == "$recycle.bin" || lname == "my computer" || lname == "this pc" || lname == "darchi.exe" {
 			continue
 		}
 		total++
@@ -451,7 +451,7 @@ func (a *App) ArchiveDesktop() (string, error) {
 		nameEnt := entry.Name()
 		// Skip Recycle Bin and My PC representations if they appear as special
 		lname := strings.ToLower(nameEnt)
-		if lname == "recycle.bin" || lname == "$recycle.bin" || lname == "my computer" || lname == "this pc" {
+		if lname == "recycle.bin" || lname == "$recycle.bin" || lname == "my computer" || lname == "this pc" || lname == "darchi.exe" {
 			continue
 		}
 		current++
@@ -861,7 +861,7 @@ func (a *App) RestoreDesktopFromArchive(archiveName string) (string, error) {
 			continue
 		}
 		lname := strings.ToLower(nameEnt)
-		if lname == "recycle.bin" || lname == "$recycle.bin" || lname == "my computer" || lname == "this pc" {
+		if lname == "recycle.bin" || lname == "$recycle.bin" || lname == "my computer" || lname == "this pc" || lname == "darchi.exe" {
 			continue
 		}
 		src := filepath.Join(srcDir, nameEnt)
